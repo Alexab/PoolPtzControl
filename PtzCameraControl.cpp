@@ -50,11 +50,15 @@ bool PtzCameraControl::connect(std::chrono::milliseconds timeout)
 
       nChannelNum = cfg.DigChannel.Value() + cfg.VideoInChannel.Value();
     }
+    else
+      return false;
   }
+  else
+    return false;
 
   _num_channels = nChannelNum;
 
-  return false;
+  return true;
 }
 
 void PtzCameraControl::disconnect()
