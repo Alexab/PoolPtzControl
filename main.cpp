@@ -57,11 +57,11 @@ int main(int argc, char* argv[]) {
     boost::program_options::value< int >()->default_value(2),
     "Light on (1) or off (0)"
   )(
-    "ir_mode,Im",
+    "ir_mode,I",
     boost::program_options::value< int >()->default_value(0),
     "Switch auto/manual mode for IR light (1 - process switch)"
   )(
-    "white_mode,Wm",
+    "white_mode,W",
     boost::program_options::value< int >()->default_value(0),
     "Switch auto/manual mode for white light (1 - process switch)"
   )(
