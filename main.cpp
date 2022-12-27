@@ -46,11 +46,11 @@ int main(int argc, char* argv[]) {
     "Camera port"
   )(
     "username,U",
-    boost::program_options::value< std::string >()->default_value("root"),
+    boost::program_options::value< std::string >()->default_value("admin"),
     "User name"
   )(
     "password,P",
-    boost::program_options::value< std::string >()->default_value("root"),
+    boost::program_options::value< std::string >()->default_value(""),
     "User password"
   )(
     "light,L",
