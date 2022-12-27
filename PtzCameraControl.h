@@ -6,6 +6,7 @@
 #define PTZCONTROL_PTZCAMERACONTROL_H
 
 #include <string>
+#include <chrono>
 
 #include "XNetSDK/include/XNetSDK.h"
 #include "XNetSDK/include/XNetSDKSyn.h"
@@ -42,7 +43,7 @@ class PtzCameraControl {
  public:
   PtzCameraControl(const std::string &address, int port, const std::string &username, const std::string &password);
   ~PtzCameraControl();
-  bool connect();
+  bool connect(std::chrono::milliseconds timeout);
   void disconnect();
 
   bool light_on();

@@ -82,7 +82,10 @@ int main(int argc, char* argv[]) {
 //  PtzCameraControl cam("http://10.10.10.10", 80, "root", "root");
   PtzCameraControl cam(settings["address"].as<std::string>(), settings["port"].as<int>(), settings["username"].as<std::string>(), settings["password"].as<std::string>());
 
-  cam.connect();
+  bool is_connected = cam.connect(std::chrono::milliseconds (5000));
+  std::cout << "Connection " << (is_connected?"successful":"failed") << std::endl;
+  if(!is_connected)
+    return 2;
   XSDK_HANDLE device_handle = cam.get_device_handle();
   int num_channels = cam.get_num_channels();
   std::cout << "Device Handle: " << int(device_handle) << ". NumChannels: " <<num_channels << std::endl;

@@ -21,7 +21,7 @@ PtzCameraControl::~PtzCameraControl()
   disconnect();
 }
 
-bool PtzCameraControl::connect()
+bool PtzCameraControl::connect(std::chrono::milliseconds timeout)
 {
   XSDK_HANDLE device_handle;
   SXSDKLoginParam pParam;
@@ -31,7 +31,7 @@ bool PtzCameraControl::connect()
   strcpy(pParam.sUserName, _username.c_str());
   strcpy(pParam.sPassword, _password.c_str());
 
-  _device_handle = XSDK_DevLoginSyn(&pParam, 5000);
+  _device_handle = XSDK_DevLoginSyn(&pParam, timeout.count());
   if(_device_handle<=0)
     return false;
 
