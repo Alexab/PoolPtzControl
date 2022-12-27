@@ -46,8 +46,13 @@ class PtzCameraControl {
   bool connect(std::chrono::milliseconds timeout);
   void disconnect();
 
-  bool light_on();
-  bool light_off();
+  bool light_inc();
+  bool light_dec();
+  bool ir_switch_mode();
+  bool white_switch_mode();
+
+  bool save_light_settings();
+  bool restore_light_settings();
 
   int callback(XSDK_HANDLE hDevice, int nMsgId, int nParam1, int nParam2, int nParam3, const char* szString, void* pObject, int64 lParam, int nSeq, void* pMsg);
 

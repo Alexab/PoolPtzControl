@@ -65,17 +65,44 @@ void PtzCameraControl::disconnect()
   _num_channels = 0;
 }
 
-bool PtzCameraControl::light_on()
+bool PtzCameraControl::light_inc()
 {
-  int res = XSDK_DevPtzControl(_device_handle, 0, S_XPTZ_DirectionUp, 1, true);
+  //int res = XSDK_DevPtzControl(_device_handle, 0, S_XPTZ_DirectionUp, 1, true);
+  int res = XSDK_DevPtzPreset(_device_handle, 0, S_XPTZ_GotoPreset, 242);
   return res >= 0;
 }
 
-bool PtzCameraControl::light_off()
+bool PtzCameraControl::light_dec()
 {
-  int res = XSDK_DevPtzControl(_device_handle, 0, S_XPTZ_DirectionDown, 1, true);
+//  int res = XSDK_DevPtzControl(_device_handle, 0, S_XPTZ_DirectionDown, 1, true);
+  int res = XSDK_DevPtzPreset(_device_handle, 0, S_XPTZ_GotoPreset, 243);
   return res >= 0;
 }
+
+bool PtzCameraControl::ir_switch_mode()
+{
+  int res = XSDK_DevPtzPreset(_device_handle, 0, S_XPTZ_GotoPreset, 244);
+  return res >= 0;
+}
+
+bool PtzCameraControl::white_switch_mode()
+{
+  int res = XSDK_DevPtzPreset(_device_handle, 0, S_XPTZ_GotoPreset, 245);
+  return res >= 0;
+}
+
+bool PtzCameraControl::save_light_settings()
+{
+  int res = XSDK_DevPtzPreset(_device_handle, 0, S_XPTZ_GotoPreset, 250);
+  return res >= 0;
+}
+
+bool PtzCameraControl::restore_light_settings()
+{
+  int res = XSDK_DevPtzPreset(_device_handle, 0, S_XPTZ_GotoPreset, 251);
+  return res >= 0;
+}
+
 
 int PtzCameraControl::callback(XSDK_HANDLE hDevice, int nMsgId, int nParam1, int nParam2, int nParam3, const char* szString, void* pObject, int64 lParam, int nSeq, void* pMsg)
 {

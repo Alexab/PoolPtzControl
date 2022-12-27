@@ -56,6 +56,22 @@ int main(int argc, char* argv[]) {
     "light,L",
     boost::program_options::value< int >()->default_value(2),
     "Light on (1) or off (0)"
+  )(
+    "ir_mode,Im",
+    boost::program_options::value< int >()->default_value(0),
+    "Switch auto/manual mode for IR light (1 - process switch)"
+  )(
+    "white_mode,Wm",
+    boost::program_options::value< int >()->default_value(0),
+    "Switch auto/manual mode for white light (1 - process switch)"
+  )(
+    "save,S",
+    boost::program_options::value< int >()->default_value(0),
+    "Save light settings (1 - process save)"
+  )(
+    "restore,R",
+    boost::program_options::value< int >()->default_value(0),
+    "Restore default light settings (1 - process restore)"
   );
 
   boost::program_options::variables_map settings;
@@ -94,15 +110,47 @@ int main(int argc, char* argv[]) {
     int light_mode = settings["light"].as<int>();
     if(light_mode == 1)
     {
-      std::cout << "Light on...";
-      bool res = cam.light_on();
+      std::cout << "Light increment...";
+      bool res = cam.light_inc();
       std::cout << (res?"success":"fail") << std::endl;
     }
     else
     if(light_mode == 0)
     {
-      std::cout << "Light off...";
-      bool res = cam.light_off();
+      std::cout << "Light decrement...";
+      bool res = cam.light_dec();
+      std::cout << (res?"success":"fail") << std::endl;
+    }
+
+    int ir_mode = settings["ir_mode"].as<int>();
+    if(ir_mode == 1)
+    {
+      std::cout << "Switching IR light mode (auto/manual)...";
+      bool res = cam.ir_switch_mode();
+      std::cout << (res?"success":"fail") << std::endl;
+    }
+
+    int white_mode = settings["white_mode"].as<int>();
+    if(white_mode == 1)
+    {
+      std::cout << "Switching white light mode (auto/manual)...";
+      bool res = cam.white_switch_mode();
+      std::cout << (res?"success":"fail") << std::endl;
+    }
+
+    int save = settings["save"].as<int>();
+    if(save == 1)
+    {
+      std::cout << "Save light settings...";
+      bool res = cam.save_light_settings();
+      std::cout << (res?"success":"fail") << std::endl;
+    }
+
+    int restore = settings["restore"].as<int>();
+    if(restore == 1)
+    {
+      std::cout << "Restore default light settings...";
+      bool res = cam.restore_light_settings();
       std::cout << (res?"success":"fail") << std::endl;
     }
   }
