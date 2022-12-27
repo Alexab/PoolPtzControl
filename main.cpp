@@ -52,6 +52,10 @@ int main(int argc, char* argv[]) {
     "password,P",
     boost::program_options::value< std::string >()->default_value("root"),
     "User password"
+  )(
+    "light,L",
+    boost::program_options::value< int >()->default_value(2),
+    "Light on (1) or off (0)"
   );
 
   boost::program_options::variables_map settings;
@@ -80,7 +84,25 @@ int main(int argc, char* argv[]) {
 
   cam.connect();
   XSDK_HANDLE device_handle = cam.get_device_handle();
-  std::cout << "Device Handle: " << int(device_handle) << std::endl;
+  int num_channels = cam.get_num_channels();
+  std::cout << "Device Handle: " << int(device_handle) << ". NumChannels: " <<num_channels << std::endl;
+  if(device_handle > 0 && num_channels > 0)
+  {
+    int light_mode = settings["light"].as<int>();
+    if(light_mode == 1)
+    {
+      std::cout << "Light on...";
+      bool res = cam.light_on();
+      std::cout << (res?"success":"fail") << std::endl;
+    }
+    else
+    if(light_mode == 0)
+    {
+      std::cout << "Light off...";
+      bool res = cam.light_off();
+      std::cout << (res?"success":"fail") << std::endl;
+    }
+  }
 
   return 0;
 }
