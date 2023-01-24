@@ -32,9 +32,10 @@ bool PtzCameraControl::connect(std::chrono::milliseconds timeout)
   strcpy(pParam.sPassword, _password.c_str());
 
   _device_handle = XSDK_DevLoginSyn(&pParam, timeout.count());
-  if(_device_handle<=0)
+  if(_device_handle<=0) {
+    std::cout << "XSDK_DevLoginSyn failed. Device handle=" <<  _device_handle <<std::endl;
     return false;
-
+  }
   int nChannelNum = 0;
 
   if (_device_handle > 0)
@@ -50,8 +51,10 @@ bool PtzCameraControl::connect(std::chrono::milliseconds timeout)
 
       nChannelNum = cfg.DigChannel.Value() + cfg.VideoInChannel.Value();
     }
-    else
+    else {
+      std::cout << "XSDK_DevGetSysConfigSyn failed: nResult=" <<  nResult << std::endl;
       return false;
+    }
   }
   else
     return false;
