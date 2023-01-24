@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
     "Camera address"
   )(
     "port,p",
-    boost::program_options::value< int >()->default_value(80),
+    boost::program_options::value< int >()->default_value(34567),
     "Camera port"
   )(
     "username,U",
