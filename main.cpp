@@ -1,5 +1,7 @@
 #include <iostream>
 #include <cstring>
+#include <chrono>
+#include <thread>
 #include <boost/program_options.hpp>
 
 #include "XNetSDK/include/XNetSDK.h"
@@ -72,6 +74,10 @@ int main(int argc, char* argv[]) {
     "restore,R",
     boost::program_options::value< int >()->default_value(0),
     "Restore default light settings (1 - process restore)"
+  )(
+    "lighton,LO",
+    boost::program_options::value< int >()->default_value(2),
+    "Switch light on/off (0 - off, 1 - on)"
   );
 
   boost::program_options::variables_map settings;
@@ -108,6 +114,22 @@ int main(int argc, char* argv[]) {
   std::cout << "Device Handle: " << int(device_handle) << ". NumChannels: " <<num_channels << std::endl;
   if(device_handle > 0 && num_channels > 0)
   {
+    int ir_mode = settings["ir_mode"].as<int>();
+    if(ir_mode == 1)
+    {
+      std::cout << "Switching IR light mode (auto/manual)...";
+      bool res = cam.ir_switch_mode();
+      std::cout << (res?"success":"fail") << std::endl;
+    }
+
+    int white_mode = settings["white_mode"].as<int>();
+    if(white_mode == 1)
+    {
+      std::cout << "Switching white light mode (auto/manual)...";
+      bool res = cam.white_switch_mode();
+      std::cout << (res?"success":"fail") << std::endl;
+    }
+
     int light_mode = settings["light"].as<int>();
     if(light_mode == 1)
     {
@@ -123,19 +145,34 @@ int main(int argc, char* argv[]) {
       std::cout << (res?"success":"fail") << std::endl;
     }
 
-    int ir_mode = settings["ir_mode"].as<int>();
-    if(ir_mode == 1)
+    int lighton = settings["lighton"].as<int>();
+    if(lighton == 1)
     {
-      std::cout << "Switching IR light mode (auto/manual)...";
-      bool res = cam.ir_switch_mode();
+      std::cout << "Light on...";
+      bool res = true;
+
+      for(size_t i=0;i<50;i++) {
+        res &= cam.light_inc();
+        if(!res)
+          break;
+        std::cout << i <<"...";
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      }
       std::cout << (res?"success":"fail") << std::endl;
     }
-
-    int white_mode = settings["white_mode"].as<int>();
-    if(white_mode == 1)
+    else
+    if(lighton == 0)
     {
-      std::cout << "Switching white light mode (auto/manual)...";
-      bool res = cam.white_switch_mode();
+      std::cout << "Light off...";
+      bool res = true;
+
+      for(size_t i=0;i<50;i++) {
+        res &= cam.light_dec();
+        if(!res)
+          break;
+        std::cout << i <<"...";
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      }
       std::cout << (res?"success":"fail") << std::endl;
     }
 
