@@ -30,7 +30,7 @@ int CALLBACK Main_MessageCallBack(XSDK_HANDLE hDevice, int nMsgId, int nParam1, 
       break;
   }
 */
-  std::cout << "Callback called!" << std::endl;
+  std::cout << "Callback called! " << szString <<  std::endl;
   return 1;
 }
 
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
   )(
     "light,L",
     boost::program_options::value< int >()->default_value(2),
-    "Light on (1) or off (0)"
+    "Light inc (1) or dec (0)"
   )(
     "ir_mode,I",
     boost::program_options::value< int >()->default_value(0),
@@ -96,6 +96,7 @@ int main(int argc, char* argv[]) {
   std::cout << "SDK init status: " << init_result << std::endl;
 
 //  PtzCameraControl cam("http://10.10.10.10", 80, "root", "root");
+  std::cout << "Connecting to: " << settings["address"].as<std::string>() << ":" << settings["port"].as<int>() << " [" << settings["username"].as<std::string>() << ":" << settings["password"].as<std::string>() << "]" <<std::endl;
   PtzCameraControl cam(settings["address"].as<std::string>(), settings["port"].as<int>(), settings["username"].as<std::string>(), settings["password"].as<std::string>());
 
   bool is_connected = cam.connect(std::chrono::milliseconds (5000));
