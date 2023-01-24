@@ -32,7 +32,7 @@ int CALLBACK Main_MessageCallBack(XSDK_HANDLE hDevice, int nMsgId, int nParam1, 
       break;
   }
 */
-  std::cout << "Callback called! " << szString <<  std::endl;
+//  std::cout << "Callback called! " << szString <<  std::endl;
   return 1;
 }
 
