@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
     boost::program_options::value< int >()->default_value(0),
     "Restore default light settings (1 - process restore)"
   )(
-    "lighton,LO",
+    "lighton,O",
     boost::program_options::value< int >()->default_value(2),
     "Switch light on/off (0 - off, 1 - on)"
   );
@@ -155,7 +155,7 @@ int main(int argc, char* argv[]) {
         res &= cam.light_inc();
         if(!res)
           break;
-        std::cout << i <<"..." << std::flush;
+        std::cout << i+1 <<"..." << std::flush;
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
       }
       std::cout << (res?"success":"fail") << std::endl;
@@ -170,7 +170,7 @@ int main(int argc, char* argv[]) {
         res &= cam.light_dec();
         if(!res)
           break;
-        std::cout << i <<"..." << std::flush;
+        std::cout << i+1 <<"..." << std::flush;
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
       }
       std::cout << (res?"success":"fail") << std::endl;
